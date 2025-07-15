@@ -1,3 +1,7 @@
+// Let's Talk - Real-Time Chat UI
+// Author: Mohammad Shafaque Arif
+// Description: Main chat container with dark mode & emoji support
+
 import { useChatStore } from "../store/useChatStore";
 import { useEffect, useRef } from "react";
 
