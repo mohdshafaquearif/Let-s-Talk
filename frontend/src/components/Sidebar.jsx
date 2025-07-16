@@ -6,7 +6,6 @@ import { Users } from "lucide-react";
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
-
   const { onlineUsers } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
 
@@ -27,18 +26,20 @@ const Sidebar = () => {
           <Users className="size-6" />
           <span className="font-medium hidden lg:block">Contacts</span>
         </div>
-        {/* TODO: Online filter toggle */}
         <div className="mt-3 hidden lg:flex items-center gap-2">
-          <label className="cursor-pointer flex items-center gap-2">
+          <label htmlFor="onlineOnlyToggle" className="cursor-pointer flex items-center gap-2">
             <input
+              id="onlineOnlyToggle"
               type="checkbox"
               checked={showOnlineOnly}
               onChange={(e) => setShowOnlineOnly(e.target.checked)}
               className="checkbox checkbox-sm"
+              aria-checked={showOnlineOnly}
+              aria-label="Show only online users"
             />
             <span className="text-sm">Show online only</span>
           </label>
-          <span className="text-xs text-zinc-500">({onlineUsers.length - 1} online)</span>
+          <span className="text-xs text-zinc-500">({onlineUsers.length} online)</span>
         </div>
       </div>
 
@@ -56,7 +57,7 @@ const Sidebar = () => {
             <div className="relative mx-auto lg:mx-0">
               <img
                 src={user.profilePic || "/avatar.png"}
-                alt={user.name}
+                alt={user.fullName}
                 className="size-12 object-cover rounded-full"
               />
               {onlineUsers.includes(user._id) && (
@@ -67,7 +68,6 @@ const Sidebar = () => {
               )}
             </div>
 
-            {/* User info - only visible on larger screens */}
             <div className="hidden lg:block text-left min-w-0">
               <div className="font-medium truncate">{user.fullName}</div>
               <div className="text-sm text-zinc-400">
@@ -84,4 +84,5 @@ const Sidebar = () => {
     </aside>
   );
 };
+
 export default Sidebar;
