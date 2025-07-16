@@ -1,13 +1,22 @@
 import { Users } from "lucide-react";
 
 const SidebarSkeleton = () => {
-  // Create 8 skeleton items
-  const skeletonContacts = Array(8).fill(null);
+  // Pre-generate stable keys (SonarQube friendly)
+  const skeletonContacts = [
+    "skeleton-contact-1",
+    "skeleton-contact-2",
+    "skeleton-contact-3",
+    "skeleton-contact-4",
+    "skeleton-contact-5",
+    "skeleton-contact-6",
+    "skeleton-contact-7",
+    "skeleton-contact-8",
+  ];
 
   return (
     <aside
       className="h-full w-20 lg:w-72 border-r border-base-300 
-    flex flex-col transition-all duration-200"
+      flex flex-col transition-all duration-200"
     >
       {/* Header */}
       <div className="border-b border-base-300 w-full p-5">
@@ -19,8 +28,8 @@ const SidebarSkeleton = () => {
 
       {/* Skeleton Contacts */}
       <div className="overflow-y-auto w-full py-3">
-        {skeletonContacts.map((_, idx) => (
-          <div key={idx} className="w-full p-3 flex items-center gap-3">
+        {skeletonContacts.map((id) => (
+          <div key={id} className="w-full p-3 flex items-center gap-3">
             {/* Avatar skeleton */}
             <div className="relative mx-auto lg:mx-0">
               <div className="skeleton size-12 rounded-full" />
