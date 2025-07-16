@@ -1,3 +1,15 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+/**
+ * A visual pattern component used on auth pages with a grid animation and headings.
+ *
+ * @component
+ * @param {Object} props
+ * @param {string} props.title - Main heading text
+ * @param {string} props.subtitle - Subtitle text below the heading
+ * @returns JSX.Element
+ */
 const AuthImagePattern = ({ title, subtitle }) => {
   return (
     <div className="hidden lg:flex items-center justify-center bg-base-200 p-12">
@@ -7,7 +19,7 @@ const AuthImagePattern = ({ title, subtitle }) => {
             <div
               key={i}
               className={`aspect-square rounded-2xl bg-primary/10 ${
-                i % 2 === 0 ? "animate-pulse" : ""
+                i % 2 === 0 ? 'animate-pulse' : ''
               }`}
             />
           ))}
@@ -17,6 +29,12 @@ const AuthImagePattern = ({ title, subtitle }) => {
       </div>
     </div>
   );
+};
+
+// ✅ Add PropTypes validation
+AuthImagePattern.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
 };
 
 export default AuthImagePattern;
