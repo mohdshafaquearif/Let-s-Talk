@@ -10,6 +10,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+
   const { login, isLoggingIn } = useAuthStore();
 
   const handleSubmit = async (e) => {
@@ -26,8 +27,7 @@ const LoginPage = () => {
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
               <div
-                className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20
-              transition-colors"
+                className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors"
               >
                 <MessageSquare className="w-6 h-6 text-primary" />
               </div>
@@ -38,8 +38,9 @@ const LoginPage = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="email">
                 <span className="label-text font-medium">Email</span>
               </label>
               <div className="relative">
@@ -47,17 +48,22 @@ const LoginPage = () => {
                   <Mail className="h-5 w-5 text-base-content/40" />
                 </div>
                 <input
+                  id="email"
                   type="email"
-                  className={`input input-bordered w-full pl-10`}
+                  className="input input-bordered w-full pl-10"
                   placeholder="you@example.com"
+                  autoComplete="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                 />
               </div>
             </div>
 
+            {/* Password Field */}
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="password">
                 <span className="label-text font-medium">Password</span>
               </label>
               <div className="relative">
@@ -65,16 +71,21 @@ const LoginPage = () => {
                   <Lock className="h-5 w-5 text-base-content/40" />
                 </div>
                 <input
+                  id="password"
                   type={showPassword ? "text" : "password"}
-                  className={`input input-bordered w-full pl-10`}
+                  className="input input-bordered w-full pl-10"
                   placeholder="••••••••"
+                  autoComplete="current-password"
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
                 <button
                   type="button"
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5 text-base-content/40" />
@@ -85,7 +96,12 @@ const LoginPage = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full" disabled={isLoggingIn}>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="btn btn-primary w-full"
+              disabled={isLoggingIn}
+            >
               {isLoggingIn ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
@@ -97,6 +113,7 @@ const LoginPage = () => {
             </button>
           </form>
 
+          {/* Signup Link */}
           <div className="text-center">
             <p className="text-base-content/60">
               Don&apos;t have an account?{" "}
@@ -110,10 +127,11 @@ const LoginPage = () => {
 
       {/* Right Side - Image/Pattern */}
       <AuthImagePattern
-        title={"Welcome back!"}
-        subtitle={"Sign in to continue your conversations and catch up with your messages."}
+        title="Welcome back!"
+        subtitle="Sign in to continue your conversations and catch up with your messages."
       />
     </div>
   );
 };
+
 export default LoginPage;
