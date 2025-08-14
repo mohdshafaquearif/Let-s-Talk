@@ -1,3 +1,4 @@
+// socket.js
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
@@ -5,33 +6,41 @@ import express from "express";
 const app = express();
 const server = http.createServer(app);
 
+// Used to store online users: { userId: socketId }
+const userSocketMap = {};
+
+// Configure Socket.io with CORS
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://letstalkchat.netlify.app"], // local + production
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
-export function getReceiverSocketId(userId) {
-  return userSocketMap[userId];
-}
-
-// used to store online users
-const userSocketMap = {}; // 
-
 io.on("connection", (socket) => {
-  console.log("A user connected", socket.id);
+  console.log("A user connected:", socket.id);
 
   const userId = socket.handshake.query.userId;
-  if (userId) userSocketMap[userId] = socket.id;
+  if (userId) {
+    userSocketMap[userId] = socket.id;
+  }
 
-  // io.emit() is used to send events to all the connected clients
+  // Notify all clients about online users
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
   socket.on("disconnect", () => {
-    console.log("A user disconnected", socket.id);
-    delete userSocketMap[userId];
+    console.log("A user disconnected:", socket.id);
+    if (userId && userSocketMap[userId]) {
+      delete userSocketMap[userId];
+    }
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 });
+
+// Helper function to get a specific user's socket ID
+export function getReceiverSocketId(userId) {
+  return userSocketMap[userId];
+}
 
 export { io, app, server };
