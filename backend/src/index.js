@@ -6,7 +6,10 @@ import dotenv from "dotenv";
 import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
+import { connectDB } from "./lib/db.js";
+import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.route.js";
+import { app, server } from "./lib/socket.js";
 // lib/socket.js
 import { createServer } from "http";
 import { Server } from "socket.io";
