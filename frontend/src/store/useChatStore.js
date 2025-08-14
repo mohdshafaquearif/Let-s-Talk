@@ -2,6 +2,13 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
 import { useAuthStore } from "./useAuthStore";
+// lib/axios.js
+import axios from "axios";
+
+export const axiosInstance = axios.create({
+  baseURL: "https://let-s-talk.onrender.com/api",
+  withCredentials: true, // important: sends cookies
+});
 
 export const useChatStore = create((set, get) => ({
   messages: [],
