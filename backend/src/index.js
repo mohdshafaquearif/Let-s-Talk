@@ -18,7 +18,8 @@ import express from "express";
 export const app = express();
 
 export const server = createServer(app);
-
+const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve();
 export const io = new Server(server, {
   cors: {
     origin: "https://letstalkchat.netlify.app", // Your Netlify frontend
