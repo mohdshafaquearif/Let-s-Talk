@@ -7,26 +7,35 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import { connectDB } from "./lib/db.js";
-import authRoutes from "./routes/auth.route.js";
-import messageRoutes from "./routes/message.route.js";
-import { app, server } from "./lib/socket.js";
+// lib/socket.js
+import { createServer } from "http";
+import { Server } from "socket.io";
+import express from "express";
 
-dotenv.config();
+export const app = express();
 
-const PORT = process.env.PORT || 5000;
-const __dirname = path.resolve();
+export const server = createServer(app);
 
-// Middleware for Express routes
-app.use(express.json());
-app.use(cookieParser());
-app.use(
-  cors({
-    origin: "https://letstalkchat.netlify.app",
+export const io = new Server(server, {
+  cors: {
+    origin: "https://letstalkchat.netlify.app", // Your Netlify frontend
+    methods: ["GET", "POST"],
     credentials: true
-  })
-);
+  }
+});
 
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
+
+
+app.get("/", (req,res)=> {
+res.send("hello world");
+});
 // API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
